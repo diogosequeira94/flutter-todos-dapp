@@ -25,7 +25,7 @@ class NotesRepository {
   final _mockPrivateGanashKey = 'loremipsum';
   static const notesContractPath = 'build/contracts/NotesContract.json';
 
-  NotesRepository() {
+  NotesRepository._create() {
     web3client = Web3Client(
       _rpcUrl,
       http.Client(),
@@ -33,7 +33,22 @@ class NotesRepository {
         return IOWebSocketChannel.connect(_wsUrl).cast<String>();
       },
     );
+  }
+
+  /// Needs to become a singleton
+  Future<NotesRepository> instance() async {
+    // Call the private constructor
+    final notesRepository = NotesRepository._create();
+    await init();
+    return notesRepository;
+  }
+
+  Future<void> init() async {
+    await _getABI();
+    await _getAddress(contractAbiCode);
+    await _getCredentials();
     notesDeployedContract = NotesDeployedContract();
+    notesDeployedContract.getDeployedContract(contractAbiCode, contractAddress);
   }
 
   Future<void> _getABI() async {
@@ -63,7 +78,18 @@ class NotesRepository {
         parameters: [title, description],
       ),
     );
-   // fetchNotes();
+    // fetchNotes();
+  }
+
+  Future<void> deleteNote(int id) async {
+    await web3client.sendTransaction(
+      credentials,
+      Transaction.callContract(
+        contract: notesDeployedContract.deployedContract,
+        function: notesDeployedContract.deleteNote,
+        parameters: [BigInt.from(id)],
+      ),
+    );
   }
 
   // Future<void> fetchNotes() async {
