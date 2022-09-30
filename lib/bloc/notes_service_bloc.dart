@@ -13,6 +13,8 @@ class NotesServiceBloc extends Bloc<NotesServiceEvent, NotesServiceState> {
   NotesServiceBloc({required this.notesRepository}) : super(NotesServiceInitial()) {
     List<Note> notes = [];
 
-    on<NotesServiceEvent>((event, emit) {});
+    on<NotesServiceEvent>((event, emit) {
+
+    });
   }
 }
