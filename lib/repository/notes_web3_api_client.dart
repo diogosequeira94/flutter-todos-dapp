@@ -31,9 +31,8 @@ class NotesWeb3Client {
   }
 
   Future<void> init() async {
-    await _getABI();
-    await _getAddress(contractAbiCode);
-    await _getCredentials();
+    /// Future.wait more performance?
+    await Future.wait([_getABI(), _getAddress(contractAbiCode), _getCredentials()]);
     notesDeployedContract = NotesDeployedContract();
     notesDeployedContract.getDeployedContract(contractAbiCode, contractAddress);
   }
