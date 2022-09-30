@@ -5,6 +5,8 @@ import 'package:web3dart/web3dart.dart';
 import 'package:http/http.dart' as http;
 import 'package:web_socket_channel/io.dart';
 
+import '../model/note.dart';
+
 class NotesRepository {
   late Web3Client web3client;
   late ContractAbi contractAbiCode;
@@ -48,4 +50,12 @@ class NotesRepository {
   Future<void> getCredentials() async {
     credentials = EthPrivateKey.fromHex(_mockPrivateGanashKey);
   }
+
+  // Future<void> fetchNotes() async {
+  //   List totalTaskList = await web3client.call(
+  //     contract: deployedContract,
+  //     function: noteCount,
+  //     params: [],
+  //   );
+  // }
 }
