@@ -7,6 +7,7 @@ import 'package:web3dart/web3dart.dart';
 class NotesRepository {
   late NotesWeb3Client notesWeb3ApiClient;
   NotesRepository({required this.notesWeb3ApiClient}) {
+    print('Repository Initialized!');
     notesWeb3ApiClient.init();
   }
 

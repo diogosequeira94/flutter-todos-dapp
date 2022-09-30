@@ -7,8 +7,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Note Dapp'),
-        centerTitle: true,
+        title: const Text('Notes Dapp'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -19,6 +18,14 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Add your onPressed code here!
+        },
+        backgroundColor: Colors.blueAccent,
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
+

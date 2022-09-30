@@ -21,6 +21,7 @@ class NotesWeb3Client {
   NotesDeployedContract get getNotesDeployedContract => notesDeployedContract;
 
   NotesWeb3Client() {
+    print('Notes Web3 Client also Initialized!');
     web3client = Web3Client(
       Endpoints.rpcUrl(),
       http.Client(),
@@ -31,11 +32,9 @@ class NotesWeb3Client {
   }
 
   Future<void> init() async {
-    // await _getABI();
-    // await _getAddress(contractAbiCode);
-    // await _getCredentials();
-    /// Future.wait more performance?
-    await Future.wait([_getABI(), _getAddress(contractAbiCode), _getCredentials()]);
+    await _getABI();
+    await _getAddress(contractAbiCode);
+    await _getCredentials();
     notesDeployedContract = NotesDeployedContract();
     notesDeployedContract.getDeployedContract(contractAbiCode, contractAddress);
   }
