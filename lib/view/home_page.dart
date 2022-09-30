@@ -5,8 +5,20 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Home Page'),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Note Dapp'),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: const [
+            Center(
+              child: Text('Hello!'),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
