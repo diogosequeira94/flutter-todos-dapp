@@ -1,6 +1,6 @@
 # Todos dApp with BLoC
 
-Simples Todos app that let's add and delete notes sending transactions to a local blockchain
+Simple Todos app that let's add and delete notes sending transactions to a local blockchain
 
 ## Requirements 
 - Node.js
