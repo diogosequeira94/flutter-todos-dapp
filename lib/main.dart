@@ -19,12 +19,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: BlocProvider(
-        lazy: false,
         create: (context) => NotesServiceBloc(
           notesRepository: NotesRepository(
             notesWeb3ApiClient: NotesWeb3Client(),
           ),
-        ),
+        )..add(FetchNotesStarted()),
         child: const HomePage(),
       ),
     );

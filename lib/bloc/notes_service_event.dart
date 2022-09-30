@@ -4,7 +4,7 @@ abstract class NotesServiceEvent extends Equatable {
   const NotesServiceEvent();
 }
 
-class FetchNotes extends NotesServiceEvent {
+class FetchNotesStarted extends NotesServiceEvent {
   @override
   List<Object?> get props => [];
 }
