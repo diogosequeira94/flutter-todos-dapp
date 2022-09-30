@@ -5,7 +5,7 @@ import 'package:web3dart/web3dart.dart';
 /// Responsible for CRUD operations and Error handling
 
 class NotesRepository {
-  late NotesWeb3ApiClient notesWeb3ApiClient;
+  late NotesWeb3Client notesWeb3ApiClient;
   NotesRepository({required this.notesWeb3ApiClient}) {
     notesWeb3ApiClient.init();
   }

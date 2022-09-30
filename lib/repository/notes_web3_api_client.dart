@@ -8,7 +8,7 @@ import 'package:web_socket_channel/io.dart';
 
 import 'notes_deployed_contract.dart';
 
-class NotesWeb3ApiClient {
+class NotesWeb3Client {
   late Web3Client web3client;
   late NotesDeployedContract notesDeployedContract;
   late ContractAbi contractAbiCode;
@@ -20,7 +20,7 @@ class NotesWeb3ApiClient {
   EthPrivateKey get getCredentials => credentials;
   NotesDeployedContract get getNotesDeployedContract => notesDeployedContract;
 
-  NotesWeb3ApiClient() {
+  NotesWeb3Client() {
     web3client = Web3Client(
       Endpoints.rpcUrl(),
       http.Client(),
