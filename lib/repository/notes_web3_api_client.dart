@@ -15,7 +15,7 @@ class NotesWeb3Client {
   late EthereumAddress contractAddress;
   late EthPrivateKey credentials;
 
-  static const notesContractPath = 'build/contracts/NotesContract.json';
+  static const notesContractPath = 'assets/contracts/NotesContract.json';
 
   EthPrivateKey get getCredentials => credentials;
   NotesDeployedContract get getNotesDeployedContract => notesDeployedContract;
