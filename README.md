@@ -1,16 +1,14 @@
-# flutter_todos_dapp
+# Todos dApp with BLoC
 
-A new Flutter project.
+Simples Todos app that let's add and delete notes sending transactions to a local blockchain
 
-## Getting Started
+## Requirements 
+- Node.js
+- Truffle (npm install -g truffle)
+- Ganache(local blockchain)
 
-This project is a starting point for a Flutter application.
+## Tech Used
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+**Server**: Ganash, Truffle
+**Client**: Flutter
+**State Management**: BLoC
