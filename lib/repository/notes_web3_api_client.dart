@@ -28,16 +28,16 @@ class NotesWeb3Client {
         return IOWebSocketChannel.connect(Endpoints.wsUrl()).cast<String>();
       },
     );
+
     init();
   }
 
   Future<void> init() async {
-    _notesDeployedContract = NotesDeployedContract();
     await _getABI();
     await _getAddress(_contractAbiCode);
     await _getCredentials();
-    await _notesDeployedContract.getDeployedContract(
-        _contractAbiCode, _contractAddress);
+    /// Check Initialization
+    _notesDeployedContract = NotesDeployedContract((DeployedContract(_contractAbiCode, _contractAddress)));
   }
 
   Future<void> _getABI() async {

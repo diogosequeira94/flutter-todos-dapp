@@ -6,8 +6,13 @@ import 'package:web3dart/web3dart.dart';
 /// Responsible for CRUD operations and Error handling
 
 class NotesRepository {
-  late NotesWeb3Client notesWeb3ApiClient;
-  NotesRepository({required this.notesWeb3ApiClient});
+  static NotesWeb3Client notesWeb3ApiClient = NotesWeb3Client();
+
+  static final _instance = NotesRepository._internal();
+
+  static NotesRepository get instance => _instance;
+
+  NotesRepository._internal();
 
   Future<void> addNote(String title, String description) async {
     await notesWeb3ApiClient.web3client.sendTransaction(
@@ -47,7 +52,8 @@ class NotesRepository {
 
     for (var i = 0; i < totalTaskLen; i++) {
       var temp = await notesWeb3ApiClient.web3client.call(
-          contract: notesWeb3ApiClient.getNotesDeployedContract.deployedContract,
+          contract:
+              notesWeb3ApiClient.getNotesDeployedContract.deployedContract,
           function: notesWeb3ApiClient.getNotesDeployedContract.notes,
           params: [BigInt.from(i)]);
       if (temp[1] != "") {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_todos_dapp/bloc/notes_service_bloc.dart';
+import 'package:flutter_todos_dapp/repository/notes_deployed_contract.dart';
 import 'package:flutter_todos_dapp/repository/notes_repository.dart';
 import 'package:flutter_todos_dapp/repository/notes_web3_api_client.dart';
 import 'package:flutter_todos_dapp/view/home_page.dart';
@@ -21,9 +22,7 @@ class MyApp extends StatelessWidget {
       ),
       home: BlocProvider(
         create: (context) => NotesServiceBloc(
-          notesRepository: NotesRepository(
-            notesWeb3ApiClient: NotesWeb3Client(),
-          ),
+          notesRepository: NotesRepository.instance,
         )..add(FetchNotesStarted()),
         child: const HomePage(),
       ),
