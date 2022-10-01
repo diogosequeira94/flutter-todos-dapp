@@ -14,18 +14,31 @@ class NotesServiceBloc extends Bloc<NotesServiceEvent, NotesServiceState> {
       : super(NotesServiceInitial()) {
     List<Note> notes = [];
     on<FetchNotesStarted>(_onFetchStarted);
-    on<AddNotePressed>(_onFetchStarted);
+    on<AddNotePressed>(_onAddNotePressed);
     on<DeleteNotePressed>(_onFetchStarted);
   }
 
   Future<void> _onFetchStarted(NotesServiceEvent event, Emitter<NotesServiceState> emit) async {
     emit(NotesFetchInProgress());
+    await Future.delayed(const Duration(seconds: 3));
     try {
-      // final notes = await notesRepository.fetchNotes();
-      final List<Note>notes = [];
+      final notes = await notesRepository.fetchNotes();
       emit(NotesFetchSuccess(notes: notes));
-    } catch (_) {
+    } on Object catch (exception) {
+      print('##### ERROR ERROR! $exception');
       emit(NotesFetchError());
+    }
+  }
+
+  Future<void> _onAddNotePressed(AddNotePressed event, Emitter<NotesServiceState> emit) async {
+    emit(NotesAddInProgress());
+    await Future.delayed(const Duration(seconds: 3));
+    try {
+      await notesRepository.addNote(event.name, event.description);
+      emit(NotesAddSuccess());
+    } on Object catch (exception) {
+      print('##### ERROR ERROR! $exception');
+      emit(NotesAddFailure());
     }
   }
 }

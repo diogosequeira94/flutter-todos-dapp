@@ -34,12 +34,8 @@ class NotesAddInProgress extends NotesServiceState {
 }
 
 class NotesAddSuccess extends NotesServiceState {
-  const NotesAddSuccess({required this.note});
-
-  final Note note;
-
   @override
-  List<Object> get props => [note];
+  List<Object> get props => [];
 }
 
 class NotesAddFailure extends NotesServiceState {
