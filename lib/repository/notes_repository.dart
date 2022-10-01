@@ -6,31 +6,35 @@ import 'package:web3dart/web3dart.dart';
 /// Responsible for CRUD operations and Error handling
 
 class NotesRepository {
-  static NotesWeb3Client notesWeb3ApiClient = NotesWeb3Client();
+  final NotesWeb3Client _notesWeb3ApiClient = NotesWeb3Client();
 
   static final _instance = NotesRepository._internal();
 
   static NotesRepository get instance => _instance;
 
-  NotesRepository._internal();
+  NotesRepository._internal(){
+    /// Calling init() instance method inside this constructor makes Dart code run in sequence
+    /// Calling init() inside NotesWeb3Client constructor will trigger NotesRepository's event before class is fully initialized
+    _notesWeb3ApiClient.init();
+  }
 
   Future<void> addNote(String title, String description) async {
-    await notesWeb3ApiClient.web3client.sendTransaction(
-      notesWeb3ApiClient.getCredentials,
+    await _notesWeb3ApiClient.web3client.sendTransaction(
+      _notesWeb3ApiClient.getCredentials,
       Transaction.callContract(
-        contract: notesWeb3ApiClient.getNotesDeployedContract.deployedContract,
-        function: notesWeb3ApiClient.getNotesDeployedContract.createNote,
+        contract: _notesWeb3ApiClient.getNotesDeployedContract,
+        function: _notesWeb3ApiClient.createNote,
         parameters: [title, description],
       ),
     );
   }
 
   Future<void> deleteNote(int id) async {
-    await notesWeb3ApiClient.web3client.sendTransaction(
-      notesWeb3ApiClient.getCredentials,
+    await _notesWeb3ApiClient.web3client.sendTransaction(
+      _notesWeb3ApiClient.getCredentials,
       Transaction.callContract(
-        contract: notesWeb3ApiClient.getNotesDeployedContract.deployedContract,
-        function: notesWeb3ApiClient.getNotesDeployedContract.deleteNote,
+        contract: _notesWeb3ApiClient.getNotesDeployedContract,
+        function: _notesWeb3ApiClient.deleteNote,
         parameters: [BigInt.from(id)],
       ),
     );
@@ -39,9 +43,9 @@ class NotesRepository {
   Future<List<Note>> fetchNotes() async {
     List<Note> notes = [];
     print('###### Fetching notes from repo.....');
-    final rawNotesList = await notesWeb3ApiClient.web3client.call(
-      contract: notesWeb3ApiClient.getNotesDeployedContract.deployedContract,
-      function: notesWeb3ApiClient.getNotesDeployedContract.noteCount,
+    final rawNotesList = await _notesWeb3ApiClient.web3client.call(
+      contract: _notesWeb3ApiClient.getNotesDeployedContract,
+      function: _notesWeb3ApiClient.noteCount,
       params: [],
     );
 
@@ -51,10 +55,10 @@ class NotesRepository {
     int totalTaskLen = rawNotesList[0].toInt();
 
     for (var i = 0; i < totalTaskLen; i++) {
-      var temp = await notesWeb3ApiClient.web3client.call(
+      var temp = await _notesWeb3ApiClient.web3client.call(
           contract:
-              notesWeb3ApiClient.getNotesDeployedContract.deployedContract,
-          function: notesWeb3ApiClient.getNotesDeployedContract.notes,
+              _notesWeb3ApiClient.getNotesDeployedContract,
+          function: _notesWeb3ApiClient.notes,
           params: [BigInt.from(i)]);
       if (temp[1] != "") {
         notes.add(

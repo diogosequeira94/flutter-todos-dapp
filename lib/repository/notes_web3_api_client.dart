@@ -6,11 +6,9 @@ import 'package:web3dart/web3dart.dart';
 import 'package:http/http.dart' as http;
 import 'package:web_socket_channel/io.dart';
 
-import 'notes_deployed_contract.dart';
-
 class NotesWeb3Client {
   late Web3Client web3client;
-  late NotesDeployedContract _notesDeployedContract;
+  late DeployedContract _notesDeployedContract;
   late ContractAbi _contractAbiCode;
   late EthereumAddress _contractAddress;
   late EthPrivateKey _credentials;
@@ -18,9 +16,9 @@ class NotesWeb3Client {
   static const notesContractPath = 'assets/contracts/NotesContract.json';
 
   EthPrivateKey get getCredentials => _credentials;
-  NotesDeployedContract get getNotesDeployedContract => _notesDeployedContract;
+  DeployedContract get getNotesDeployedContract => _notesDeployedContract;
 
-  NotesWeb3Client() {
+  Future<void> init() async {
     web3client = Web3Client(
       Endpoints.apiUrl(),
       http.Client(),
@@ -28,16 +26,10 @@ class NotesWeb3Client {
         return IOWebSocketChannel.connect(Endpoints.wsUrl()).cast<String>();
       },
     );
-
-    init();
-  }
-
-  Future<void> init() async {
     await _getABI();
     await _getAddress(_contractAbiCode);
     await _getCredentials();
-    /// Check Initialization
-    _notesDeployedContract = NotesDeployedContract((DeployedContract(_contractAbiCode, _contractAddress)));
+    await _getDeployedContract();
   }
 
   Future<void> _getABI() async {
@@ -56,8 +48,26 @@ class NotesWeb3Client {
 
   Future<void> _getCredentials() async {
     _credentials = EthPrivateKey.fromHex(Endpoints.mockPrivateGanacheKey());
-    /// Test logs
-    EtherAmount balance = await web3client.getBalance(_credentials.address);
-    print(balance.getValueInUnit(EtherUnit.ether));
+
+    // /// Test logs
+    // EtherAmount balance = await web3client.getBalance(_credentials.address);
+    // print(balance.getValueInUnit(EtherUnit.ether));
   }
+
+  //region DeployedContract
+  late ContractFunction createNote;
+  late ContractFunction deleteNote;
+  late ContractFunction notes;
+  late ContractFunction noteCount;
+
+  /// ToDo: assign in NoteDeployedContract
+  Future<void> _getDeployedContract() async {
+    _notesDeployedContract =
+        DeployedContract(_contractAbiCode, _contractAddress);
+    createNote = _notesDeployedContract.function('createNote');
+    deleteNote = _notesDeployedContract.function('deleteNote');
+    notes = _notesDeployedContract.function('notes');
+    noteCount = _notesDeployedContract.function('noteCount');
+  }
+//endregion
 }
