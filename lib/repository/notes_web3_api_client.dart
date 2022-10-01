@@ -22,20 +22,21 @@ class NotesWeb3Client {
 
   NotesWeb3Client() {
     web3client = Web3Client(
-      Endpoints.rpcUrl(),
+      Endpoints.apiUrl(),
       http.Client(),
       socketConnector: () {
         return IOWebSocketChannel.connect(Endpoints.wsUrl()).cast<String>();
       },
     );
+    init();
   }
 
   Future<void> init() async {
+    _notesDeployedContract = NotesDeployedContract();
     await _getABI();
     await _getAddress(_contractAbiCode);
     await _getCredentials();
-    _notesDeployedContract = NotesDeployedContract();
-    _notesDeployedContract.getDeployedContract(
+    await _notesDeployedContract.getDeployedContract(
         _contractAbiCode, _contractAddress);
   }
 
@@ -55,5 +56,8 @@ class NotesWeb3Client {
 
   Future<void> _getCredentials() async {
     _credentials = EthPrivateKey.fromHex(Endpoints.mockPrivateGanacheKey());
+    /// Test logs
+    EtherAmount balance = await web3client.getBalance(_credentials.address);
+    print(balance.getValueInUnit(EtherUnit.ether));
   }
 }
