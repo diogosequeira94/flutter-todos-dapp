@@ -23,7 +23,6 @@ class NotesRepository {
   factory NotesRepository() => _instance;
 
   NotesRepository._internal() {
-    print('Constructor called');
     init();
   }
 
@@ -31,7 +30,6 @@ class NotesRepository {
 
   //region initialization
   Future<void> init() async {
-    print('##### Init started');
     web3client = Web3Client(
       Endpoints.apiUrl(),
       http.Client(),
@@ -46,25 +44,20 @@ class NotesRepository {
   }
 
   Future<void> _getABI() async {
-    print('###### Getting ABI... ');
     final abiFile = await rootBundle.loadString(notesContractPath);
     final jsonABI = jsonDecode(abiFile);
     _contractAbiCode =
         ContractAbi.fromJson(jsonEncode(jsonABI['abi']), 'NotesContract');
-    print('###### _contractAbiCode populated');
   }
 
   Future<void> _getAddress(ContractAbi contractAbi) async {
-    print('###### Getting Address... ');
     final abiFile = await rootBundle.loadString(notesContractPath);
     final jsonABI = jsonDecode(abiFile);
     _contractAddress =
         EthereumAddress.fromHex(jsonABI["networks"]["5777"]["address"]);
-    print('####### _contractAddress populated');
   }
 
   Future<void> _getCredentials() async {
-    print('###### Getting Credentials... ');
     _credentials = EthPrivateKey.fromHex(Endpoints.mockPrivateGanacheKey());
   }
 
@@ -78,9 +71,7 @@ class NotesRepository {
   late ContractFunction _noteCount;
 
   Future<void> getDeployedContract() async {
-    print('###### Getting Deployed Contract.... ');
     _deployedContract = DeployedContract(_contractAbiCode, _contractAddress);
-    print('###### Deployed Contract assigned.... ');
     _createNote = _deployedContract.function('createNote');
     _deleteNote = _deployedContract.function('deleteNote');
     _notes = _deployedContract.function('notes');
@@ -112,7 +103,6 @@ class NotesRepository {
 
   Future<List<Note>> fetchNotes() async {
     List<Note> notes = [];
-    print('###### Fetching notes from repo.....');
     final rawNotesList = await web3client.call(
       contract: _deployedContract,
       function: _noteCount,
