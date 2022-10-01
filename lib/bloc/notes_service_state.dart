@@ -15,14 +15,15 @@ class NotesFetchInProgress extends NotesServiceState {
 }
 
 class NotesFetchSuccess extends NotesServiceState {
-  final List<Note> notes;
   const NotesFetchSuccess({required this.notes});
+
+  final List<Note> notes;
 
   @override
   List<Object> get props => [notes];
 }
 
-class NotesFetchFailure extends NotesServiceState {
+class NotesFetchError extends NotesServiceState {
   @override
   List<Object> get props => [];
 }
@@ -33,8 +34,9 @@ class NotesAddInProgress extends NotesServiceState {
 }
 
 class NotesAddSuccess extends NotesServiceState {
-  final Note note;
   const NotesAddSuccess({required this.note});
+
+  final Note note;
 
   @override
   List<Object> get props => [note];

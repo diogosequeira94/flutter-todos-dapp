@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_todos_dapp/model/note.dart';
+import 'package:flutter_todos_dapp/models/note.dart';
 import 'package:flutter_todos_dapp/repository/notes_repository.dart';
 
 part 'notes_service_event.dart';
@@ -13,13 +13,19 @@ class NotesServiceBloc extends Bloc<NotesServiceEvent, NotesServiceState> {
   NotesServiceBloc({required this.notesRepository})
       : super(NotesServiceInitial()) {
     List<Note> notes = [];
+    on<FetchNotesStarted>(_onFetchStarted);
+    on<AddNotePressed>(_onFetchStarted);
+    on<DeleteNotePressed>(_onFetchStarted);
+  }
 
-    on<FetchNotesStarted>((event, emit) async {
-      print('Fetching in progress...');
-      emit(NotesFetchInProgress());
-      await Future.delayed(const Duration(seconds: 3));
+  Future<void> _onFetchStarted(NotesServiceEvent event, Emitter<NotesServiceState> emit) async {
+    emit(NotesFetchInProgress());
+    try {
+      // final notes = await notesRepository.fetchNotes();
+      final List<Note>notes = [];
       emit(NotesFetchSuccess(notes: notes));
-      print('Fetching complete...');
-    });
+    } catch (_) {
+      emit(NotesFetchError());
+    }
   }
 }

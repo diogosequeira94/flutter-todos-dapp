@@ -21,7 +21,6 @@ class NotesWeb3Client {
   NotesDeployedContract get getNotesDeployedContract => notesDeployedContract;
 
   NotesWeb3Client() {
-    print('Notes Web3 Client also Initialized!');
     web3client = Web3Client(
       Endpoints.rpcUrl(),
       http.Client(),
