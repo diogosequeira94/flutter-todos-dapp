@@ -1,3 +1,4 @@
+import 'package:flutter_todos_dapp/models/note.dart';
 import 'package:flutter_todos_dapp/repository/notes_web3_api_client.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -19,7 +20,6 @@ class NotesRepository {
         parameters: [title, description],
       ),
     );
-    // fetchNotes();
   }
 
   Future<void> deleteNote(int id) async {
@@ -33,11 +33,30 @@ class NotesRepository {
     );
   }
 
-  // Future<void> fetchNotes() async {
-  //   List totalTaskList = await web3client.call(
-  //     contract: deployedContract,
-  //     function: noteCount,
-  //     params: [],
-  //   );
-  // }
+  Future<void> fetchNotes() async {
+    List<Note> notes = [];
+    final rawNotesList = await notesWeb3ApiClient.web3client.call(
+      contract: notesWeb3ApiClient.getNotesDeployedContract.deployedContract,
+      function: notesWeb3ApiClient.getNotesDeployedContract.noteCount,
+      params: [],
+    );
+
+    int totalTaskLen = rawNotesList[0].toInt();
+
+    for (var i = 0; i < totalTaskLen; i++) {
+      var temp = await notesWeb3ApiClient.web3client.call(
+          contract: notesWeb3ApiClient.getNotesDeployedContract.deployedContract,
+          function: notesWeb3ApiClient.getNotesDeployedContract.notes,
+          params: [BigInt.from(i)]);
+      if (temp[1] != "") {
+        notes.add(
+          Note(
+            id: (temp[0] as BigInt).toString(),
+            title: temp[1],
+            description: temp[2],
+          ),
+        );
+      }
+    }
+  }
 }
