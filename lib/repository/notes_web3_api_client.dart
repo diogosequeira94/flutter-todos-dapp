@@ -20,7 +20,9 @@ class NotesWeb3Client {
   EthPrivateKey get getCredentials => _credentials;
   NotesDeployedContract get getNotesDeployedContract => _notesDeployedContract;
 
-  NotesWeb3Client() {
+  NotesWeb3Client._();
+
+  Future<void> init() async {
     web3client = Web3Client(
       Endpoints.apiUrl(),
       http.Client(),
@@ -28,15 +30,9 @@ class NotesWeb3Client {
         return IOWebSocketChannel.connect(Endpoints.wsUrl()).cast<String>();
       },
     );
-
-    init();
-  }
-
-  Future<void> init() async {
     await _getABI();
     await _getAddress(_contractAbiCode);
     await _getCredentials();
-    /// Check Initialization
     _notesDeployedContract = NotesDeployedContract((DeployedContract(_contractAbiCode, _contractAddress)));
   }
 
