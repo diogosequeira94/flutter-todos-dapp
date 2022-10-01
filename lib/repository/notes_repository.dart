@@ -7,9 +7,7 @@ import 'package:web3dart/web3dart.dart';
 
 class NotesRepository {
   late NotesWeb3Client notesWeb3ApiClient;
-  NotesRepository({required this.notesWeb3ApiClient}) {
-    notesWeb3ApiClient.init();
-  }
+  NotesRepository({required this.notesWeb3ApiClient});
 
   Future<void> addNote(String title, String description) async {
     await notesWeb3ApiClient.web3client.sendTransaction(
