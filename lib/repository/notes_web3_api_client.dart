@@ -35,7 +35,8 @@ class NotesWeb3Client {
     await _getAddress(_contractAbiCode);
     await _getCredentials();
     _notesDeployedContract = NotesDeployedContract();
-    _notesDeployedContract.getDeployedContract(_contractAbiCode, _contractAddress);
+    _notesDeployedContract.getDeployedContract(
+        _contractAbiCode, _contractAddress);
   }
 
   Future<void> _getABI() async {
@@ -53,6 +54,6 @@ class NotesWeb3Client {
   }
 
   Future<void> _getCredentials() async {
-    _credentials = EthPrivateKey.fromHex(Endpoints.mockPrivateGanashKey());
+    _credentials = EthPrivateKey.fromHex(Endpoints.mockPrivateGanacheKey());
   }
 }
