@@ -24,8 +24,10 @@ class NotesFetchSuccess extends NotesServiceState {
 }
 
 class NotesFetchError extends NotesServiceState {
+  const NotesFetchError(this.errorMessage);
+  final String errorMessage;
   @override
-  List<Object> get props => [];
+  List<Object> get props => [errorMessage];
 }
 
 class NotesAddInProgress extends NotesServiceState {

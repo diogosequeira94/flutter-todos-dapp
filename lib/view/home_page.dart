@@ -46,7 +46,10 @@ class _HomePageState extends State<HomePage> {
           } else if (state is NotesFetchSuccess) {
             return const Center(child: Text('Success Fetching Notes!'));
           } else if (state is NotesFetchError) {
-            return const Center(child: Text('Oops something went wrong!'));
+            return Center(
+              child: Text(
+                  'Oops something went wrong! Error: ${state.errorMessage}'),
+            );
           }
           return const SizedBox.shrink();
         },

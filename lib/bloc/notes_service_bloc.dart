@@ -20,13 +20,11 @@ class NotesServiceBloc extends Bloc<NotesServiceEvent, NotesServiceState> {
 
   Future<void> _onFetchStarted(NotesServiceEvent event, Emitter<NotesServiceState> emit) async {
     emit(NotesFetchInProgress());
-    await Future.delayed(const Duration(seconds: 3));
     try {
       final notes = await notesRepository.fetchNotes();
       emit(NotesFetchSuccess(notes: notes));
-    } on Object catch (exception) {
-      print('##### ERROR ERROR! $exception');
-      emit(NotesFetchError());
+    } on Object catch (error) {
+      emit(NotesFetchError(error.toString()));
     }
   }
 
