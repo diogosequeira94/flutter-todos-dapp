@@ -3,8 +3,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_todos_dapp/bloc/notes_service_bloc.dart';
 import 'package:flutter_todos_dapp/view/add_note_form.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  late NotesServiceBloc _notesServiceBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _notesServiceBloc = context.read<NotesServiceBloc>();
+    _notesServiceBloc.add(FetchNotesStarted());
+  }
 
   @override
   Widget build(BuildContext context) {
