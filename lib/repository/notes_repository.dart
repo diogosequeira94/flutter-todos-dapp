@@ -22,8 +22,8 @@ class NotesRepository {
     await _notesWeb3ApiClient.web3client.sendTransaction(
       _notesWeb3ApiClient.getCredentials,
       Transaction.callContract(
-        contract: _notesWeb3ApiClient.getNotesDeployedContract,
-        function: _notesWeb3ApiClient.createNote,
+        contract: _notesWeb3ApiClient.getNotesDeployedContract.deployedContract,
+        function: _notesWeb3ApiClient.getNotesDeployedContract.createNote,
         parameters: [title, description],
       ),
     );
@@ -33,8 +33,8 @@ class NotesRepository {
     await _notesWeb3ApiClient.web3client.sendTransaction(
       _notesWeb3ApiClient.getCredentials,
       Transaction.callContract(
-        contract: _notesWeb3ApiClient.getNotesDeployedContract,
-        function: _notesWeb3ApiClient.deleteNote,
+        contract: _notesWeb3ApiClient.getNotesDeployedContract.deployedContract,
+        function: _notesWeb3ApiClient.getNotesDeployedContract.deleteNote,
         parameters: [BigInt.from(id)],
       ),
     );
@@ -44,8 +44,8 @@ class NotesRepository {
     List<Note> notes = [];
     print('###### Fetching notes from repo.....');
     final rawNotesList = await _notesWeb3ApiClient.web3client.call(
-      contract: _notesWeb3ApiClient.getNotesDeployedContract,
-      function: _notesWeb3ApiClient.noteCount,
+      contract: _notesWeb3ApiClient.getNotesDeployedContract.deployedContract,
+      function: _notesWeb3ApiClient.getNotesDeployedContract.noteCount,
       params: [],
     );
 
@@ -57,8 +57,8 @@ class NotesRepository {
     for (var i = 0; i < totalTaskLen; i++) {
       var temp = await _notesWeb3ApiClient.web3client.call(
           contract:
-              _notesWeb3ApiClient.getNotesDeployedContract,
-          function: _notesWeb3ApiClient.notes,
+          _notesWeb3ApiClient.getNotesDeployedContract.deployedContract,
+          function: _notesWeb3ApiClient.getNotesDeployedContract.notes,
           params: [BigInt.from(i)]);
       if (temp[1] != "") {
         notes.add(
