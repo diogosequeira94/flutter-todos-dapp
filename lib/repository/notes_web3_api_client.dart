@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter_todos_dapp/repository/endpoints.dart';
 import 'package:flutter_todos_dapp/repository/notes_deployed_contract.dart';
+import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';
-import 'package:http/http.dart' as http;
 import 'package:web_socket_channel/io.dart';
 
 class NotesWeb3Client {
@@ -22,7 +22,7 @@ class NotesWeb3Client {
   Future<void> init() async {
     web3client = Web3Client(
       Endpoints.apiUrl(),
-      http.Client(),
+      Client(),
       socketConnector: () {
         return IOWebSocketChannel.connect(Endpoints.wsUrl()).cast<String>();
       },
