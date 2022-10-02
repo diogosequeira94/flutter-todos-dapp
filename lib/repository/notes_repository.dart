@@ -42,19 +42,19 @@ class NotesRepository {
 
   Future<List<Note>> fetchNotes() async {
     List<Note> notes = [];
-    print('###### Fetching notes from repo.....');
     final rawNotesList = await _notesWeb3ApiClient.web3client.call(
       contract: _notesWeb3ApiClient.getNotesDeployedContract.deployedContract,
       function: _notesWeb3ApiClient.getNotesDeployedContract.noteCount,
       params: [],
     );
 
-    print('###### Notes List: $rawNotesList');
-    return notes;
+    if(rawNotesList.isEmpty){
+      return notes;
+    }
 
-    int totalTaskLen = rawNotesList[0].toInt();
+    int totalTaskLength = rawNotesList[0].toInt();
 
-    for (var i = 0; i < totalTaskLen; i++) {
+    for (var i = 0; i < totalTaskLength; i++) {
       var temp = await _notesWeb3ApiClient.web3client.call(
           contract:
           _notesWeb3ApiClient.getNotesDeployedContract.deployedContract,
