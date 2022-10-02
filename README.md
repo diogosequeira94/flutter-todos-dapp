@@ -46,6 +46,9 @@ Simple Todos app that let's add and delete notes sending transactions to a local
 ## Tech Used
 
 **Server**: Ganash, Truffle
+
 **Smart Contracts**: Solidity
+
 **Client**: Flutter
+
 **State Management**: BLoC
