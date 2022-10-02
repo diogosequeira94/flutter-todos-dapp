@@ -35,7 +35,9 @@ class NotesServiceBloc extends Bloc<NotesServiceEvent, NotesServiceState> {
     try {
       await notesRepository.addNote(event.name, event.description);
       emit(NotesAddSuccess());
+      print('#### Success adding a new note');
     } on Object catch (_) {
+      print('#### Failed adding a new note');
       emit(NotesAddFailure());
     }
   }

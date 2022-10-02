@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
               backgroundColor: Colors.transparent,
               builder: (_) {
                 return Container(
-                  height: MediaQuery.of(context).size.height - topPadding,
+                  height: MediaQuery.of(context).size.height / 2,
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
