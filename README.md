@@ -2,10 +2,16 @@
 
 Simple Todos app that let's add and delete notes sending transactions to a local blockchain
 
+- Fetch Notes
+- Get note by ID
+- Add note
+- Delete note
+
 ## Requirements 
+- Android Studio / VScode
 - Node.js
 - Truffle (npm install -g truffle)
-- Ganache(local blockchain)
+- Ganache (local blockchain)
 
 ## Folder structure
 ```
@@ -40,5 +46,6 @@ Simple Todos app that let's add and delete notes sending transactions to a local
 ## Tech Used
 
 **Server**: Ganash, Truffle
+**Smart Contracts**: Solidity
 **Client**: Flutter
 **State Management**: BLoC
